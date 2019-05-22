@@ -29,35 +29,35 @@ module.exports = {
 
     //convert single teacher input scenario into array of teachers
     if (Array.isArray(inputs.teacher)) {
-      teachers = inputs.teacher;
+    var  teacherEmailArray = inputs.teacher;
     } else {
-      teachers = [];
-      teachers.push(inputs.teacher)
+      teacherEmailArray = [];
+      teacherEmailArray.push(inputs.teacher)
     }
 
     //input validation check empty teacher array
-    if (teachers == 0) {
+    if (teacherEmailArray == 0) {
       return exits.teacherEmpty({
         message: 'Teacher array is empty'
       })
     }else
     { //remove duplicate teachers
 
-      let set = new Set(teachers);
-      teachers=Array.from(set);
+      let set = new Set(teacherEmailArray);
+      teacherEmailArray=Array.from(set);
     }
 
-    teacherIDArray = [];
+    let teacherIDArray = [];
     //handle one or two input
     error=false;
 
-    //sequential way of finding the teachers records/ break if a teacher is empty
-    for (let i = 0; i < teachers.length; i++) {
-      teacher = await Teacher.findOne({email: teachers[i]});
+    //sequential way of finding the teachers records using teacher email, break if a teacher was not found
+    for (let i = 0; i < teacherEmailArray.length; i++) {
+      teacher = await Teacher.findOne({email: teacherEmailArray[i]});
       if (!teacher) {
         error = true;
         return exits.teacherNotFound({
-          message: 'Teacher with the email ' + teachers[i] + " was not found on the system"
+          message: 'Teacher with the email ' + teacherEmailArray[i] + " was not found on the system"
         })
       }
       teacherIDArray.push(teacher.teacher_id);
