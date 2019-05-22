@@ -49,13 +49,11 @@ module.exports = {
 
     let teacherIDArray = [];
     //handle one or two input
-    error=false;
 
     //sequential way of finding the teachers records using teacher email, break if a teacher was not found
     for (let i = 0; i < teacherEmailArray.length; i++) {
       teacher = await Teacher.findOne({email: teacherEmailArray[i]});
       if (!teacher) {
-        error = true;
         return exits.teacherNotFound({
           message: 'Teacher with the email ' + teacherEmailArray[i] + " was not found on the system"
         })
@@ -63,8 +61,7 @@ module.exports = {
       teacherIDArray.push(teacher.teacher_id);
     }
 
-
-    if (teacherIDArray.length > 0 && !error) {
+    if (teacherIDArray.length > 0 ) {
       // SAILJS WATERLINE  ORM TOO IMATURE(Or rather too flexible), HAVE TO RESORT INTO RAW QUERY
       let query = `select DISTINCT (student.email) from student inner join teacher_student on student.student_id=teacher_student.student_id 
           where teacher_student.teacher_id in ($1)
