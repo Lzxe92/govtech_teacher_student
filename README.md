@@ -4,7 +4,7 @@ a [Sails](https://sailsjs.com) application
 
   
 ## Database Setup Guide
-* Database User and Password for development can be set at /config/datastores.js
+* Database User and Password for development can be set at [/config/datastores.js](/config/datastores.js)
 
 ## Data Dictionary
 * [Database Data Dictionary](/database/data_dictionary.docx)
