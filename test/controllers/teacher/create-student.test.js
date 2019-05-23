@@ -55,13 +55,11 @@ describe('api/register',  function () {
             "studenthon@gmail.com"
           ]
       };
-      console.log("1");
       await supertest(sails.hooks.http.app)
         .post('/api/register')
         .send(requestBody)
         .expect(204)
 
-      console.log("2");
       //check the teacher and students given in the request body are saved into the system
       var teacher = await Teacher.findOne({email: requestBody.teacher});
       expect(teacher.email).to.equal(requestBody.teacher);
@@ -70,7 +68,6 @@ describe('api/register',  function () {
         expect(student.email).to.equal(requestBody.students[i]);
       }
 
-      console.log("success");
     });
   });
 
