@@ -61,8 +61,9 @@ module.exports = {
       studentEmailArray=Array.from(set);
     }
 
-
-    //transaction todo introduce transaction under helper
+    //todo introduce transaction under helper
+    // sailjs does not rollback on orm query that was separated into helper,
+    //transaction
     await sails.getDatastore()
       .transaction(async (db) => {
         //run the query below in parallel, get the result of those query and assign them into the variable
@@ -75,15 +76,17 @@ module.exports = {
           ]
         ).then(async results => {
            let duplicateStudent = false;
+           var teacher=results[0];
+           var students=results[1];
             //associate those students into the teacher
-           let result = await Teacher.addToCollection(results[0].teacher_id, 'students', results[1])
-            // Duplicate student ID on the system
-              .tolerate('E_UNIQUE', (err) => {
-                duplicateStudent = true;
-                return exits.duplicateStudent({
-                  message: 'One of the student was already registered to the teacher'
-                });
+            for(let i =0;i<students.length;i++)
+            {
+
+              let result = await Teacher.addToCollection(teacher.teacher_id, 'students', students[i])
+                .tolerate('E_UNIQUE', (err) => {
+
               });
+            }
 
             if (!duplicateStudent)
               return env.res.status(204).send();
