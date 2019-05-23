@@ -1,5 +1,6 @@
 
 /*
+The code below will be deployed at production level, easier for auto migration at the moment without manually importing dataset
 ALTER TABLE `teacher_student` ADD CONSTRAINT `teacher_student_student_id_foreign`
 FOREIGN KEY (`student_id`) REFERENCES `student`(`student_id`);
 ALTER TABLE `teacher_student` ADD CONSTRAINT `teacher_student_teacher_id_foreign`
