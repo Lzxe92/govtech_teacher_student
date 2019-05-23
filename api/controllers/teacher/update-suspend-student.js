@@ -26,11 +26,11 @@ module.exports = {
   },
 
 
-  fn: async function (inputs,exits,env) {
+  fn: async function (inputs, exits, env) {
 
     //find student from database
-    let student = await sails.helpers.teacher.suspendStudent.with({studentEmail:inputs.student})
-      .tolerate('studentNotFound', (error)=>{
+    let student = await sails.helpers.teacher.suspendStudent.with({studentEmail: inputs.student})
+      .tolerate('studentNotFound', (error) => {
         return exits.studentNotFound({
           message: 'Student with the email ' + inputs.student + " was not found on the system"
         })
@@ -38,8 +38,7 @@ module.exports = {
       });
 
     //return success as a student was suspended
-    if(student)
-    {
+    if (student) {
       return env.res.status(204).send();
     }
 

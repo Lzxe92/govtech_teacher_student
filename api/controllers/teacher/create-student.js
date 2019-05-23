@@ -71,7 +71,7 @@ module.exports = {
             //create/find teacher record
             sails.helpers.teacher.createTeacher.with({teacherEmail: inputs.teacher}),
             //create/find students record
-            sails.helpers.teacher.createStudents.with({studentEmailArray: studentEmailArray})
+           sails.helpers.teacher.createStudents.with({studentEmailArray: studentEmailArray})
           ]
         ).then(async results => {
            let duplicateStudent = false;

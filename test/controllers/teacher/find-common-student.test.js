@@ -46,7 +46,7 @@ describe('api/commonstudents', function () {
       let response = await supertest(sails.hooks.http.app)
         .get('/api/commonstudents?teacher=teacherken%40gmail.com&teacher=teacherjoe%40gmail.com')
         .expect(200)
-      let studentEmailArray=response.body
+      let studentEmailArray = response.body
       expect(studentEmailArray).to.be.an('object')
       expect(studentEmailArray.students).to.be.an('array')
       expect(studentEmailArray.students).to.have.lengthOf(2)
@@ -66,7 +66,7 @@ describe('api/commonstudents', function () {
       let response = await supertest(sails.hooks.http.app)
         .get('/api/commonstudents?teacher=teacherken%40gmail.com')
         .expect(200)
-      let studentEmailArray=response.body
+      let studentEmailArray = response.body
       expect(studentEmailArray).to.be.an('object')
       expect(studentEmailArray.students).to.be.an('array')
       expect(studentEmailArray.students).to.have.lengthOf(3)

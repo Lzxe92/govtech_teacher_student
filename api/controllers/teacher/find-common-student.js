@@ -7,7 +7,7 @@ module.exports = {
     teacher: {
       type: 'json',
       required: true,
-      isNotEmptyString:true,
+      isNotEmptyString: true,
       description: 'The email address of the teacher(s)',
     }
   },
@@ -25,11 +25,11 @@ module.exports = {
   },
 
 
-  fn: async function (inputs, exits,env) {
+  fn: async function (inputs, exits, env) {
 
     //convert single teacher input scenario into array of teachers
     if (Array.isArray(inputs.teacher)) {
-    var  teacherEmailArray = inputs.teacher;
+      var teacherEmailArray = inputs.teacher;
     } else {
       teacherEmailArray = [];
       teacherEmailArray.push(inputs.teacher)
@@ -40,11 +40,10 @@ module.exports = {
       return exits.teacherEmpty({
         message: 'Teacher array is empty'
       })
-    }else
-    { //remove duplicate teachers
+    } else { //remove duplicate teachers
 
       let set = new Set(teacherEmailArray);
-      teacherEmailArray=Array.from(set);
+      teacherEmailArray = Array.from(set);
     }
 
     let teacherIDArray = [];
@@ -61,19 +60,19 @@ module.exports = {
       teacherIDArray.push(teacher.teacher_id);
     }
 
-    if (teacherIDArray.length > 0 ) {
+    if (teacherIDArray.length > 0) {
       // SAILJS WATERLINE  ORM TOO IMATURE(Or rather too flexible), HAVE TO RESORT INTO RAW QUERY
       let query = `select DISTINCT (student.email) from student inner join teacher_student on student.student_id=teacher_student.student_id 
           where teacher_student.teacher_id in ($1)
           group by student.student_id
           having count( student.student_id) = $2`;
 
-      let commonStudent=[];
-      let rawResult = await sails.sendNativeQuery(query,[teacherIDArray,teacherIDArray.length]);
+      let commonStudent = [];
+      let rawResult = await sails.sendNativeQuery(query, [teacherIDArray, teacherIDArray.length]);
       for (let i = 0, len = rawResult.rows.length; i < len; i++) {
         commonStudent.push(rawResult.rows[i].email);
       }
-      return env.res.send({students:commonStudent});
+      return env.res.send({students: commonStudent});
     }
 
 

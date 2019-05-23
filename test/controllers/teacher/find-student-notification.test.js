@@ -85,8 +85,7 @@ describe('api/retrievefornotifications', function () {
       //find existing teacherken@gmail.com tagged students with status = 0
       let teacherKen = await Teacher.findOne({email: "teacherken@gmail.com"}).populate("students", {status: 1})
       let teacherKenExistingStudentsArray = [];
-      for(let i = 0 ;i<teacherKen.students.length;i++)
-      {
+      for (let i = 0; i < teacherKen.students.length; i++) {
         teacherKenExistingStudentsArray.push(teacherKen.students[i].email);
 
       }
@@ -117,14 +116,13 @@ describe('api/retrievefornotifications', function () {
       //find existing teacherken@gmail.com tagged students with status = 0
       let teacherKen = await Teacher.findOne({email: "teacherken@gmail.com"}).populate("students", {status: 1})
       let teacherKenExistingStudentsArray = [];
-      for(let i = 0 ;i<teacherKen.students.length;i++)
-      {
+      for (let i = 0; i < teacherKen.students.length; i++) {
         teacherKenExistingStudentsArray.push(teacherKen.students[i].email);
 
       }
 
       // as student_only_under_teacher_joe_2@gmail.com is suspended, only student_only_under_teacher_joe_1@gmail.com is expected
-      let expectedStudentEmailArray= teacherKenExistingStudentsArray;
+      let expectedStudentEmailArray = teacherKenExistingStudentsArray;
       expectedStudentEmailArray.push("student_only_under_teacher_joe_1@gmail.com")
 
       //verify that teacherken@gmail.com tagged students with status 0 are returned
@@ -133,7 +131,6 @@ describe('api/retrievefornotifications', function () {
       let studentEmailArrayResponse = response.body.recipients
       expect(studentEmailArrayResponse).to.be.an('array')
       expect(studentEmailArrayResponse).to.have.members(expectedStudentEmailArray)
-
 
 
     });
