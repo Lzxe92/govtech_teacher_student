@@ -19,9 +19,14 @@ before(function(done) {
     hooks: { grunt: false },
     log: { level: 'warn' },
 
-  }, function(err) {
-    if (err) { return done(err); }
+  }, async function (err) {
+    if (err) {
+      return done(err);
+    }
 
+    await TeacherStudent.destroy({});
+    await Student.destroy({});
+    await Teacher.destroy({});
 
     //todo clear database record here
     // here you can load fixtures, etc.
@@ -32,11 +37,14 @@ before(function(done) {
 });
 
 // After all tests have finished...
-after(function(done) {
+after(async function () {
 
+  await TeacherStudent.destroy({});
+  await Student.destroy({});
+  await Teacher.destroy({});
   // here you can clear fixtures, etc.
   // (e.g. you might want to destroy the records you created above)
 
-  sails.lower(done);
+  await sails.lower();
 
 });

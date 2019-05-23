@@ -11,21 +11,18 @@
 
 module.exports.bootstrap = async function() {
 
-  // By convention, this is a good place to set up fake data during development.
-  //
-  // For example:
-  // ```
-  // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return;
-  // }
-  //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
+  console.log('Bootstrap start');
+  var execSQL = require('exec-sql');
+  execSQL.connect({
+    'host': sails.getDatastore().config.host,
+    'database': sails.getDatastore().config.database,
+    'user': sails.getDatastore().config.user,
+    'password': sails.getDatastore().config.password
+  });
+  await execSQL.executeFile(sails.config.appPath + '/database/init.sql'), function(err) {
+    execSQL.disconnect();
+  };
 
 
+  console.log('Bootstrap done');
 };
