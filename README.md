@@ -24,6 +24,13 @@ a [Sails](https://sailsjs.com) application
 3. By Default the localhost are hosted at port 1337, eg. http://localhost:1337/api/register 
 
 
+### Test Guide
+* Unit test are located at tests/controllers.
+1. Run the code below to run the unit test on the controllers
+    ```
+    npm test
+    ```
+
 
 
 
