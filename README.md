@@ -13,9 +13,10 @@ a [Sails](https://sailsjs.com) application
 
 ### Startup guide
 * node_modules are specified under package.json.
-1. Run the code below to install those modules
+1. Run the code below to install those modules and sails.js
     ```
     npm install
+    npm install sails -g
     ```
 2. Run the code below to Start the App at Development Mode
     ```
