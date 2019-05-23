@@ -11,8 +11,8 @@ beforeEach((done) => {
 });
 
 
-describe('api/suspend',  function () {
-   describe('Suspend a student with an invalid student email', function () {
+describe('api/suspend', function () {
+  describe('Suspend a student with an invalid student email', function () {
     it('Should return an error code 404 as no such student record was found', function (done) {
       supertest(sails.hooks.http.app)
         .post('/api/suspend')
@@ -25,19 +25,24 @@ describe('api/suspend',  function () {
   });
 
 
-
   describe('Suspend a student with an an valid student email', function () {
-    it('Should return an success code 204 as such student record was found', async function () {
+    it('Should return an success code 204 with the student status changed to 0', async function () {
 
-      let studentEmail="studentmary@gmail.com";
+      let studentEmail = "studentmary@gmail.com";
       //register an student record first
       await sails.helpers.student.createStudent.with({studentEmail: studentEmail})
-      supertest(sails.hooks.http.app)
+      await supertest(sails.hooks.http.app)
         .post('/api/suspend')
         .send({
           "student": studentEmail
         })
-        .expect(404)
+        .expect(204)
+
+      //find check if the student status is changed to 0  (suspened)
+      let student = await sails.helpers.student.findStudent.with({studentEmail: studentEmail});
+      expect(student).to.be.an('object')
+      expect(student.email).to.equal(studentEmail);
+      expect(student.status).to.equal(0);
     });
 
   });

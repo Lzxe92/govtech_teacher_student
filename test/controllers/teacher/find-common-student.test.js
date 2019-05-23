@@ -4,9 +4,6 @@ const expect = require('chai').expect;
 var should = require('chai').should()
 
 beforeEach((done) => {
-  "use strict";
-  // Drops database between each test.  This works because we use
-  // the memory database
   done()
 });
 
