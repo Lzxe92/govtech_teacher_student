@@ -24,6 +24,10 @@ a [Sails](https://sailsjs.com) application
     ```
 3. By Default the localhost are hosted at port 1337, eg. http://localhost:1337/api/register 
 
+### Public API
+* Not load balanced, please do not spam the server
+* http://98188729.xyz/api/register 
+(The number is a pun, not mine)
 
 ### Test Guide
 * Unit test are located at tests/controllers.
