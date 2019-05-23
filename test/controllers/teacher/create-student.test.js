@@ -4,12 +4,14 @@ const expect = require('chai').expect;
 var should = require('chai').should()
 
 beforeEach(async function () {
- //todo repopulate database
-  // console.log("aaa");
-});
-describe('api/register', async function () {
 
-  await describe('Register student(s) with an invalid teacher email', function () {
+ await TeacherStudent.destroy({});
+  await Student.destroy({});
+  await Teacher.destroy({});
+});
+describe('api/register',  function () {
+
+   describe('Register student(s) with an invalid teacher email', function () {
     it('Should return an error code 404 with an invalid teacher email', function (done) {
       supertest(sails.hooks.http.app)
         .post('/api/register')
@@ -26,7 +28,7 @@ describe('api/register', async function () {
 
   });
 
- await describe('Register student(s) with an invalid student email', function () {
+  describe('Register student(s) with an invalid student email', function () {
     it('Should return an error code 404 with an invalid student email', function (done) {
       supertest(sails.hooks.http.app)
         .post('/api/register')
@@ -43,7 +45,7 @@ describe('api/register', async function () {
 
   });
 
-  await describe('Register student(s) with valid student and teacher email', function () {
+   describe('Register student(s) with valid student and teacher email', function () {
     it('It should register a list of student under the teacher email given and return success code 204', async function () {
       requestBody = {
         "teacher": "teacherken@gmail.com",
@@ -53,11 +55,13 @@ describe('api/register', async function () {
             "studenthon@gmail.com"
           ]
       };
+      console.log("1");
       await supertest(sails.hooks.http.app)
         .post('/api/register')
         .send(requestBody)
         .expect(204)
 
+      console.log("2");
       //check the teacher and students given in the request body are saved into the system
       var teacher = await Teacher.findOne({email: requestBody.teacher});
       expect(teacher.email).to.equal(requestBody.teacher);
@@ -66,6 +70,7 @@ describe('api/register', async function () {
         expect(student.email).to.equal(requestBody.students[i]);
       }
 
+      console.log("success");
     });
   });
 

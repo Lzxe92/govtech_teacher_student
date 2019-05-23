@@ -12,6 +12,10 @@ before(function(done) {
 
     // For example, we might want to skip the Grunt hook,
     // and disable all logs except errors and warnings:
+
+    models: {
+      migrate: 'drop'
+    },
     hooks: { grunt: false },
     log: { level: 'warn' },
 
