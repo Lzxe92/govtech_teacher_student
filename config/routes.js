@@ -8,6 +8,8 @@
  * https://sailsjs.com/anatomy/config/routes-js
  */
 
+var express = require('express')
+var serveStatic = require('serve-static')
 module.exports.routes = {
 
   /***************************************************************************
@@ -21,6 +23,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  "/test": {assets: "apidoc", skipAssets: false},
 
   /***************************************************************************
   *                                                                          *
