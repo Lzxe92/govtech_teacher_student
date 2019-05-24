@@ -26,8 +26,8 @@ a [Sails](https://sailsjs.com) application
 
 ### Public API
 * Not load balanced, please do not spam the server
-* http://98188729.xyz/api/register 
-(The number is a pun, not mine)
+* http://98188729.xyz/api/register  (The number is a pun, not mine)
+* API documentation http://98188729.xyz/apidoc/
 
 ### Test Guide
 * Unit test are located at tests/controllers.
