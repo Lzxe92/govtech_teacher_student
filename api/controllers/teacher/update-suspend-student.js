@@ -1,3 +1,37 @@
+/**
+ * @api {post} /api/retrievefornotifications Suspend a student
+ * @apiVersion 0.0.20
+ * @apiName PostSuspendStudent
+ * @apiGroup Teacher
+ * @apiPermission None
+ *
+ * @apiHeaderExample {json} Headers:
+ *   {
+ *       "Content-Type": "application/json"
+ *   }
+ *
+ * @apiDescription User story 3. As a teacher, I want to suspend a specified student.<br/>
+ * Suspend the student, change the status of the student from 1 to 0
+ *
+ * @apiSuccessExample {json} Success: Student Suspend:
+ * HTTP/1.1 204 No content
+ * @apiParamExample {json} Suspend a student
+ {
+  "student":  "studenthon@gmail.com"
+}
+ * @apiParam {String} student  Student email address
+ * @apiErrorExample {json} Error: Student does not exists on the system:
+ *     HTTP/1.1 404 Not Found
+ *
+ {
+    "message": "Student with the email unknownstudentemail@gmail.com was not found on the system"
+ }
+ *
+ *
+ *
+
+ *
+ */
 module.exports = {
 
 

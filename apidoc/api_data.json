@@ -1,0 +1,310 @@
+[
+  {
+    "type": "get",
+    "url": "/api/commonstudents",
+    "title": "Find common student",
+    "version": "0.0.20",
+    "name": "GetFindCommonStudent",
+    "group": "Teacher",
+    "permission": [
+      {
+        "name": "None"
+      }
+    ],
+    "header": {
+      "examples": [
+        {
+          "title": "Headers:",
+          "content": "{\n    \"Content-Type\": \"application/json\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>User Story 2. As a teacher, I want to retrieve a list of students common to a given list of teachers (i.e. retrieve students who are registered to ALL of the given teachers).</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success: Common students returned of a teacher:",
+          "content": "/api/commonstudents?teacher=teacherken%40gmail.com\nHTTP/1.1 200 Success\n {\n  \"students\" :\n    [\n      \"commonstudent1@gmail.com\",\n      \"commonstudent2@gmail.com\"\n    ]\n}",
+          "type": "json"
+        },
+        {
+          "title": "Success: Common students returned of two teacher:",
+          "content": "/api/commonstudents?teacher=teacherken%40gmail.com&teacher=teacherjoe%40gmail.com\nHTTP/1.1 200 Success\n {\n  \"students\" :\n    [\n      \"commonstudent1@gmail.com\",\n      \"commonstudent2@gmail.com\"\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "students",
+            "description": "<p>Array of student(s) email</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Find Common student under teacherken@gmail.com",
+          "content": "/api/commonstudents?teacher=teacherken%40gmail.com",
+          "type": "string"
+        },
+        {
+          "title": "Find Common student under teacherken@gmail.com",
+          "content": "/api/commonstudents?teacher=teacherken%40gmail.com&teacher=teacherjoe%40gmail.com",
+          "type": "string"
+        }
+      ],
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "teacher",
+            "description": "<p>Email of teacher <br /> teacherken@gmail.com</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error: Teacher email address is not in the system:",
+          "content": "    HTTP/1.1 400 Bad Request\n\n {\n    \"message\": \"Teacher with the email invalid_teacher_email@agag.com was not found on the system\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/controllers/teacher/find-common-student.js",
+    "groupTitle": "Teacher"
+  },
+  {
+    "type": "post",
+    "url": "/api/retrievefornotifications",
+    "title": "Find student notification",
+    "version": "0.0.20",
+    "name": "PostFindStudentNotification",
+    "group": "Teacher",
+    "permission": [
+      {
+        "name": "None"
+      }
+    ],
+    "header": {
+      "examples": [
+        {
+          "title": "Headers:",
+          "content": "{\n    \"Content-Type\": \"application/json\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>User Story 4. As a teacher, I want to retrieve a list of students who can receive a given notification.<br/> The student returned must fulfill the following criteria <br/>     MUST NOT be suspended <br/>     is registered with “teacherken@gmail.com&quot; (the input teacher email)<br />     has been @mentioned in the notification<br /> If no student email was @mentioned at notification, it will only retrieve all students associated by the teacher</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success: Recipients returned with @mentioned used:",
+          "content": "HTTP/1.1 200 Success\n {\n  \"recipients\":\n    [\n      \"studentbob@gmail.com\",\n      \"studentagnes@gmail.com\",\n      \"studentmiche@gmail.com\"\n    ]\n }",
+          "type": "json"
+        },
+        {
+          "title": "Success: Recipients returned without @mentioned used:",
+          "content": "HTTP/1.1 200 Success\n {\n  \"recipients\":\n    [\n      \"studentbob@gmail.com\"\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "recipients",
+            "description": "<p>Array of student(s) email</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Find Notification with @mentioned",
+          "content": " {\n  \"teacher\":  \"teacherken@gmail.com\",\n  \"notification\": \"Hey everybody\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "Find Notification without @mentioned",
+          "content": "{\n \"teacher\":  \"teacherken@gmail.com\",\n \"notification\": \"Hello students! @studentagnes@gmail.com @studentmiche@gmail.com\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Json",
+            "optional": false,
+            "field": "notification",
+            "description": "<p>Text with email address of students to include in the notification. Syntax of those email should be @user@email.com followed with a space</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "teacher",
+            "description": "<p>Email of teacher <br /> teacherken@gmail.com</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error: Teacher email address is not an valid email address:",
+          "content": "   HTTP/1.1 400 Bad Request\n\n{\n     \"code\": \"E_MISSING_OR_INVALID_PARAMS\",\n     \"problems\": [\n         \"Invalid \\\"teacher\\\":\\n  · Value ('teacherkengmail.com') was not a valid email address.\"\n     ],\n     \"message\": \"The server could not fulfill this request (`POST /api/register`) due to 1 missing or invalid parameter.  **The following additional tip will not be shown in production**:  Tip: Check your client-side code to make sure that the request data it sends matches the expectations of the corresponding parameters in your server-side route/action.  Also check that your client-side code sends data for every required parameter.  Finally, for programmatically-parseable details about each validation error, `.problems`. \"\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/controllers/teacher/find-student-notification.js",
+    "groupTitle": "Teacher"
+  },
+  {
+    "type": "post",
+    "url": "/api/register",
+    "title": "Register Student under a teacher",
+    "version": "0.0.20",
+    "name": "PostRegisterStudent",
+    "group": "Teacher",
+    "permission": [
+      {
+        "name": "None"
+      }
+    ],
+    "header": {
+      "examples": [
+        {
+          "title": "Headers:",
+          "content": "{\n    \"Content-Type\": \"application/json\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>User Story 1. As a teacher, I want to register one or more students to a specified teacher.<br/> If existing student account does not exists, an account will be created. <br/> If existing teacher account does not exists, an account will be created. <br/> The students will be assosiated under the teacher. It will return a 204 Success status code</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success: Account(s) created:",
+          "content": "HTTP/1.1 204 No Content",
+          "type": "json"
+        }
+      ]
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Register Student under a teacher",
+          "content": " {\n  \"teacher\": \"teacherken@gmail.com\",\n  \"students\":\n    [\n      \"studentjon@gmail.com\",\n      \"studenthon@gmail.com\"\n    ]\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "teacher",
+            "description": "<p>Email of teacher <br /> teacherken@gmail.com</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Json",
+            "optional": false,
+            "field": "students",
+            "description": "<p>Array Of student(s) email <br />[ &quot;studentjon@gmail.com&quot;, &quot;studenthon@gmail.com&quot; ]</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error: Teacher email address is not an email:",
+          "content": "   HTTP/1.1 400 Bad Request\n{\n     \"code\": \"E_MISSING_OR_INVALID_PARAMS\",\n     \"problems\": [\n         \"Invalid \\\"teacher\\\":\\n  · Value ('teacherkengmail.com') was not a valid email address.\"\n     ],\n     \"message\": \"The server could not fulfill this request (`POST /api/register`) due to 1 missing or invalid parameter.  **The following additional tip will not be shown in production**:  Tip: Check your client-side code to make sure that the request data it sends matches the expectations of the corresponding parameters in your server-side route/action.  Also check that your client-side code sends data for every required parameter.  Finally, for programmatically-parseable details about each validation error, `.problems`. \"\n }",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/controllers/teacher/create-student.js",
+    "groupTitle": "Teacher"
+  },
+  {
+    "type": "post",
+    "url": "/api/retrievefornotifications",
+    "title": "Suspend a student",
+    "version": "0.0.20",
+    "name": "PostSuspendStudent",
+    "group": "Teacher",
+    "permission": [
+      {
+        "name": "None"
+      }
+    ],
+    "header": {
+      "examples": [
+        {
+          "title": "Headers:",
+          "content": "{\n    \"Content-Type\": \"application/json\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>User story 3. As a teacher, I want to suspend a specified student.<br/> Suspend the student, change the status of the student from 1 to 0</p>",
+    "success": {
+      "examples": [
+        {
+          "title": "Success: Student Suspend:",
+          "content": "HTTP/1.1 204 No content",
+          "type": "json"
+        }
+      ]
+    },
+    "parameter": {
+      "examples": [
+        {
+          "title": "Suspend a student",
+          "content": " {\n  \"student\":  \"studenthon@gmail.com\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "student",
+            "description": "<p>Student email address</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error: Student does not exists on the system:",
+          "content": "   HTTP/1.1 404 Not Found\n\n{\n   \"message\": \"Student with the email unknownstudentemail@gmail.com was not found on the system\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/controllers/teacher/update-suspend-student.js",
+    "groupTitle": "Teacher"
+  }
+]

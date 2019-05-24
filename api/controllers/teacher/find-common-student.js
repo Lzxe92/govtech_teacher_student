@@ -1,3 +1,55 @@
+/**
+ * @api {get} /api/commonstudents Find common student
+ * @apiVersion 0.0.20
+ * @apiName GetFindCommonStudent
+ * @apiGroup Teacher
+ * @apiPermission None
+ *
+ * @apiHeaderExample {json} Headers:
+ *   {
+ *       "Content-Type": "application/json"
+ *   }
+ *
+ * @apiDescription User Story 2. As a teacher, I want to retrieve a list of students common to a given list of teachers (i.e. retrieve students who are registered to ALL of the given teachers).
+ *
+ * @apiSuccessExample {json} Success: Common students returned of a teacher:
+ * /api/commonstudents?teacher=teacherken%40gmail.com
+ * HTTP/1.1 200 Success
+ {
+  "students" :
+    [
+      "commonstudent1@gmail.com",
+      "commonstudent2@gmail.com"
+    ]
+}
+ * @apiSuccess {Array}   students   Array of student(s) email
+ * @apiSuccessExample {json} Success: Common students returned of two teacher:
+ * /api/commonstudents?teacher=teacherken%40gmail.com&teacher=teacherjoe%40gmail.com
+ * HTTP/1.1 200 Success
+ {
+  "students" :
+    [
+      "commonstudent1@gmail.com",
+      "commonstudent2@gmail.com"
+    ]
+}
+ * @apiParamExample {string} Find Common student under teacherken@gmail.com
+ * /api/commonstudents?teacher=teacherken%40gmail.com
+ * @apiParamExample {string} Find Common student under teacherken@gmail.com
+ * /api/commonstudents?teacher=teacherken%40gmail.com&teacher=teacherjoe%40gmail.com
+ * @apiUse    TeacherParameter
+ * @apiErrorExample {json} Error: Teacher email address is not in the system:
+ *     HTTP/1.1 400 Bad Request
+ *
+ {
+    "message": "Teacher with the email invalid_teacher_email@agag.com was not found on the system"
+}
+ *
+ *
+ *
+
+ *
+ */
 module.exports = {
 
   friendlyName: 'Find common student(s) using a list of teacher',
